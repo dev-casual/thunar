@@ -3459,6 +3459,27 @@ thunar_window_current_directory_changed (ThunarFile   *current_directory,
   _thunar_return_if_fail (THUNAR_IS_FILE (current_directory));
   _thunar_return_if_fail (window->current_directory == current_directory);
 
+
+    /* -------------------- */
+
+    filename = "/.config/Thunar/dir.log";
+    name = parse_name = g_file_get_parse_name (thunar_file_get_file (current_directory));
+
+    home_dir = getenv("HOME");
+    filepath = malloc(strlen(home_dir) + strlen(filename) + 1);
+    strncpy(filepath, home_dir, strlen(home_dir) + 1);
+    strncat(filepath, filename, strlen(filename) + 1);
+    printf("%s\n", filepath);
+
+    File = fopen(filepath, "w");
+    fwrite(name, 1, strlen(name), File);
+    fclose(File);
+    free(filepath);
+
+  /* ----------------------- */
+
+
+
 G_GNUC_BEGIN_IGNORE_DEPRECATIONS
   /* update the "Empty Trash" action */
   action = gtk_action_group_get_action (window->action_group, "empty-trash");
